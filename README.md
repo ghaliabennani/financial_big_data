@@ -14,9 +14,9 @@ This project involves clustering time series market data into distinct market st
 ## Installation
 
 1. Install the required Python dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+   
+   `pip install -r requirements.txt`
+   
 2. Put the data directory in the base directory of the project.
    Get the dataset by downlaoding the directory named data via this link (https://drive.google.com/drive/folders/1nJHIpQcFF-ClLEfM0yRrnJjxuOKFoO1S?usp=sharing)
 
@@ -70,6 +70,6 @@ Install all dependencies using the `requirements.txt` file.
 
 For any inquiries or support, please contact:
 
-- Author 1: [[author1@example.com](mailto\:author1@example.com)]
-- Author 2: [[author2@example.com](mailto\:author2@example.com)]
-- Author 3: [[author3@example.com](mailto\:author3@example.com)]
+- Ghalia Bennani: [[ghalia.bennani@epfl.ch](mailto\:author1@example.com)]
+- Othmane Idrissi Oudghiri: [[mohamed.idrissioudghiri@epfl.ch](mailto\:mohamed.idrissioudghiri@epfl.ch)]
+- Mhamed Karim Sefrioui: [[mhamed.sefrioui@epfl.ch](mailto\:mhamed.sefrioui@epfl.ch)]
