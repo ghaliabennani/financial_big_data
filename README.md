@@ -26,9 +26,7 @@ This project involves clustering time series market data into distinct market st
 
 1. Choose between full analysis and demo workflow using the `--full` argument:
 
-   ```bash
-   python main.py --full
-   ```
+   `python main.py --full`
 
    Without `--full`, the script runs a demo on a smaller dataset.
 
@@ -47,11 +45,11 @@ This project involves clustering time series market data into distinct market st
 
 ## File Structure
 
-- \`\`: Data cleaning, merging, and feature creation.
-- \`\`: Implements feature aggregation, sliding window clustering, and Louvain clustering.
-- \`\`: Defines trading rules, applies the strategy, and generates visualizations.
-- \`\`: Lists all required Python libraries.
-- \`\`: Orchestrates the entire workflow.
+- `src/preprocessing.py`: Data cleaning, merging, and feature creation.
+- `src/clustering.py`: Implements feature aggregation, sliding window clustering, and Louvain clustering.
+- `src/strategy.py`: Defines trading rules, applies the strategy, and generates visualizations.
+- `requirements.txt`: Lists all required Python libraries.
+- `analysis.py`: Orchestrates the entire workflow.
 
 ## Dependencies
 

@@ -1,7 +1,8 @@
+from . import clustering
 import src
-from src import preprocessing, clutering, strategy;
+from src import preprocessing, strategy;
 from src.preprocessing import *
-from src.clutering import *
+from clustering import *
 from src.strategy import *
 import argparse
 
@@ -11,7 +12,7 @@ def full_analysis():
 
 def demo_workflow():
     print("Running demo workflow on a subset of the data...")
-    return '/Users/ghaliabennani/Desktop/financial_big_data/data_reduced'
+    return '/Users/ghaliabennani/Desktop/financial_big_data/data'
 
 
 def main():
@@ -46,6 +47,8 @@ def main():
     combined_df = pl.DataFrame(combined_df)
     market_data = calculate_market_data(combined_df)
     windowed_results = create_windowed_clustering_polars(market_data, window=780, threshold=0.5)
+    windowed_results.to_csv(data_dir + '/windowed_results.csv', index=False)
+
 
     #some preprocessing before applying the strategy
     market_data_pd = market_data.to_pandas()
