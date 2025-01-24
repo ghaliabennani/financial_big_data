@@ -1,8 +1,7 @@
-from . import clustering
 import src
-from src import preprocessing, strategy;
+from src import preprocessing, strategy, clustering;
 from src.preprocessing import *
-from clustering import *
+from src.clustering import *
 from src.strategy import *
 import argparse
 import warnings
@@ -11,7 +10,7 @@ warnings.filterwarnings('ignore')
 
 def full_analysis():
     print("Running full analysis on the entire dataset...")
-    return '/Users/ghaliabennani/Desktop/financial_big_data/data_reduced'
+    return '/Users/ghaliabennani/Desktop/financial_big_data/data'
 
 def demo_workflow():
     print("Running demo workflow on a subset of the data...")
