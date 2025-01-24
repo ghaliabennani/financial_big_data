@@ -5,14 +5,17 @@ from src.preprocessing import *
 from clustering import *
 from src.strategy import *
 import argparse
+import warnings
+warnings.filterwarnings('ignore')
+
 
 def full_analysis():
     print("Running full analysis on the entire dataset...")
-    return '/Users/ghaliabennani/Desktop/financial_big_data/data'
+    return '/Users/ghaliabennani/Desktop/financial_big_data/data_reduced'
 
 def demo_workflow():
     print("Running demo workflow on a subset of the data...")
-    return '/Users/ghaliabennani/Desktop/financial_big_data/data'
+    return '/Users/ghaliabennani/Desktop/financial_big_data/data_reduced'
 
 
 def main():
@@ -62,8 +65,10 @@ def main():
     strategy_results.to_csv(data_dir + '/strategy_results.csv', index=False)
 
     #Some vizualizations
-    plot_cumulative_returns(strategy_results, merged_data)
-    plot_market_metrics_main(windowed_results_pd, market_data_pd)
+    fig1 = plot_cumulative_returns(strategy_results, merged_data)
+    fig1.savefig("market_metrics_by_cluster.png", dpi=300, bbox_inches='tight')
+    fig2 = plot_market_metrics_main(windowed_results_pd, market_data_pd)
+    fig2.savefig("market_metrics_by_cluster.png", dpi=300, bbox_inches='tight')
 
 if __name__ == "__main__":
     main()

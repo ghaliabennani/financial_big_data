@@ -184,8 +184,6 @@ def parse_cluster_data(cluster_assignments_str):
 
 def plot_market_metrics(market_df, cluster_assignments):
     # Set the style
-    plt.style.use('seaborn')
-    # Create color palette for clusters
     
 
     
@@ -263,7 +261,7 @@ def plot_market_metrics(market_df, cluster_assignments):
 
 def plot_market_metrics_main(windowed_results_pd, market_data_pd):
     # Parse cluster assignments
-    cluster_df = parse_cluster_data(windowed_results_pd.iloc[6]['cluster_assignments'])
+    cluster_df = parse_cluster_data(str(windowed_results_pd.iloc[6]['cluster_assignments'].tolist()))
     print("Parsed cluster data shape:", cluster_df.shape)
     
     # Ensure market_data has the right column names

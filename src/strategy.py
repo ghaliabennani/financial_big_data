@@ -109,13 +109,16 @@ def apply_strategy(merged_data):
     return pd.DataFrame(trading_results)
 
 
-def plot_cumulative_returns(strategy_results, merged_data):
+def plot_cumulative_returns(strategy_results, merged_data, save_path=None):
     """
     Plot the cumulative returns of the strategy versus the market's cumulative returns.
 
     Parameters:
         strategy_results (pd.DataFrame): DataFrame containing strategy cumulative returns.
         merged_data (pd.DataFrame): Original merged market data for calculating market cumulative returns.
+        save_path (str, optional): File path to save the plot. If None, the plot will not be saved.
+    Returns:
+        matplotlib.figure.Figure: The created figure object.
     """
     # Calculate market cumulative return
     merged_data["market_cumulative_return"] = merged_data["avg_return"].cumsum()
@@ -123,15 +126,21 @@ def plot_cumulative_returns(strategy_results, merged_data):
     # Extract strategy cumulative return
     strategy_cumulative_return = strategy_results["cumulative_return"]
 
-    # Plot cumulative returns
-    plt.figure(figsize=(12, 6))
-    plt.plot(strategy_results["end_time"], strategy_cumulative_return, label="Strategy Cumulative Return", linewidth=2)
-    plt.plot(merged_data["end_time"], merged_data["market_cumulative_return"], label="Market Cumulative Return", linestyle="--", linewidth=2)
-    plt.xlabel("Time")
-    plt.ylabel("Cumulative Return")
-    plt.title("Cumulative Return: Strategy vs Market")
-    plt.legend()
-    plt.grid()
-    plt.xticks(rotation=45)
+    # Create the plot
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.plot(strategy_results["end_time"], strategy_cumulative_return, label="Strategy Cumulative Return", linewidth=2)
+    ax.plot(merged_data["end_time"], merged_data["market_cumulative_return"], label="Market Cumulative Return", linestyle="--", linewidth=2)
+    
+    # Add labels, title, legend, and grid
+    ax.set_xlabel("Time")
+    ax.set_ylabel("Cumulative Return")
+    ax.set_title("Cumulative Return: Strategy vs Market")
+    ax.legend()
+    ax.grid()
+    ax.tick_params(axis='x', rotation=45)
+    
+    # Adjust layout
     plt.tight_layout()
-    plt.show()
+
+    # Return the figure
+    return fig

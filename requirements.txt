@@ -1,0 +1,8 @@
+polars
+pandas
+numpy
+matplotlib
+networkx
+community-louvain
+scikit-learn
+seaborn
