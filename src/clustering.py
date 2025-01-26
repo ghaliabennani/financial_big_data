@@ -5,7 +5,7 @@ import networkx as nx
 import community.community_louvain as community_louvain
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics.pairwise import cosine_similarity
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import seaborn as sns
 import re
 
@@ -281,3 +281,4 @@ def plot_market_metrics_main(windowed_results_pd, market_data_pd):
     # Create and show the plot
     fig = plot_market_metrics(market_data_pd, cluster_df)
     plt.show()
+    return fig 

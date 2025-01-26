@@ -1,15 +1,16 @@
 
 import pandas as pd 
 import ast
-import matplotlib as plt
+import matplotlib.pyplot as plt
+import numpy as np
 
 def preprocess_data_for_strat(merged_data):
     """
     Fix formatting issues and ensure columns contain valid Python objects.
     """
     def fix_format(value):
-        if isinstance(value, (list, dict)):
-            return value  # Already a valid object
+        if isinstance(value, (list, dict, np.ndarray)):
+            return value  # Already abb valid object
         try:
             # Replace newlines with commas for valid syntax
             formatted_value = value.replace("\n", ", ")
@@ -23,7 +24,7 @@ def preprocess_data_for_strat(merged_data):
     return merged_data
 
 
-def apply_strategy(merged_data):
+def apply_strategy(merged_data, q = 0.6):
     """
     Apply a trading strategy using the given market data and cluster characteristics.
 
@@ -63,21 +64,21 @@ def apply_strategy(merged_data):
         position_change = 0
 
         if current_position == 0:  # No position
-            if cluster_mean_return > market_mean_return + 0.5 * market_mean_volatility and cluster_avg_spread < market_avg_spread:
+            if cluster_mean_return > market_mean_return + q * market_mean_volatility and cluster_avg_spread < market_avg_spread:
                 action = "Buy"
                 position_change = 1
-            elif cluster_mean_return < market_mean_return - 0.5 * market_mean_volatility and cluster_avg_spread < market_avg_spread:
+            elif cluster_mean_return < market_mean_return - q * market_mean_volatility and cluster_avg_spread < market_avg_spread:
                 action = "Sell"
                 position_change = -1
         elif current_position == 1:  # Long position
-            if cluster_mean_return < market_mean_return - 0.75 * market_mean_volatility:
+            if cluster_mean_return < market_mean_return - q * 1.5 * market_mean_volatility:
                 action = "Sell to Short"
                 position_change = -2
             elif cluster_avg_spread > market_avg_spread + 0.01:
                 action = "Close Position"
                 position_change = -1
         elif current_position == -1:  # Short position
-            if cluster_mean_return > market_mean_return + 0.75 * market_mean_volatility:
+            if cluster_mean_return > market_mean_return + q * 1.5 * market_mean_volatility:
                 action = "Buy to Long"
                 position_change = 2
             elif cluster_avg_spread > market_avg_spread + 0.01:
@@ -141,6 +142,7 @@ def plot_cumulative_returns(strategy_results, merged_data, save_path=None):
     
     # Adjust layout
     plt.tight_layout()
+    plt.show()
 
     # Return the figure
     return fig

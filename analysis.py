@@ -1,4 +1,3 @@
-import src
 from src import preprocessing, strategy, clustering;
 from src.preprocessing import *
 from src.clustering import *
@@ -35,6 +34,9 @@ def main():
     else:
         data_dir = demo_workflow()
 
+    results_directory = os.path.join(data_dir, 'results')
+    os.makedirs(results_directory, exist_ok=True)
+
     #First manipulation and preprocessing of the data 
     process_all_stocks_with_polars(data_dir)
     sort_csv_by_datetime(data_dir)
@@ -45,29 +47,37 @@ def main():
 
 
     #Clustering
+    print('Clustering...')
     combined_df = pd.read_csv(processed_data_path + '/combined_stock_data.csv')
     combined_df = pl.DataFrame(combined_df)
     market_data = calculate_market_data(combined_df)
     windowed_results = create_windowed_clustering_polars(market_data, window=780, threshold=0.5)
-    windowed_results.to_csv(data_dir + '/windowed_results.csv', index=False)
+    windowed_results_pd = windowed_results.to_pandas()
+    windowed_results_pd.to_csv(results_directory + '/windowed_results.csv', index=False)
+    print('Clustering done!')
 
 
     #some preprocessing before applying the strategy
     market_data_pd = market_data.to_pandas()
-    windowed_results_pd = windowed_results.to_pandas()
     merged_data = pd.merge(windowed_results_pd, market_data_pd, left_on="end_time", right_on="minute", how="inner")
     merged_data= merged_data.drop(columns=['minute'])
     merged_data = preprocess_data_for_strat(merged_data)
 
     #Apply the strategy
+    print('Applying strategy...')
     strategy_results = apply_strategy(merged_data)
-    strategy_results.to_csv(data_dir + '/strategy_results.csv', index=False)
+    strategy_results.to_csv(results_directory + '/strategy_results.csv', index=False)
+    print('Strategy applied!')
+
 
     #Some vizualizations
+    print('Creating vizualisations...')
     fig1 = plot_cumulative_returns(strategy_results, merged_data)
-    fig1.savefig("market_metrics_by_cluster.png", dpi=300, bbox_inches='tight')
+    fig1.savefig(results_directory + "/strategy_cumulative_returns.png", dpi=300, bbox_inches='tight')
     fig2 = plot_market_metrics_main(windowed_results_pd, market_data_pd)
-    fig2.savefig("market_metrics_by_cluster.png", dpi=300, bbox_inches='tight')
+    fig2.savefig(results_directory + "/market_metrics_by_cluster.png", dpi=300, bbox_inches='tight')
+    print('Vizualisations created!')
+
 
 if __name__ == "__main__":
     main()

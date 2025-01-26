@@ -37,6 +37,8 @@ This project involves clustering time series market data into distinct market st
    - Applying a trading strategy based on clustered states.
    - Generating results and visualizations.
 
+3. The results can be find in the results directory: `data/results`
+
 ### Outputs
 
 - Preprocessed data files.
